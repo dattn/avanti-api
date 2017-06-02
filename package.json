@@ -2,6 +2,10 @@
     "name": "avanti-api",
     "version": "0.1.0",
     "description": "",
+    "main": "dist/index.js",
+    "bin": {
+        "avanti-api": "bin/avanti-api"
+    },
     "scripts": {
         "prepublish": "gulp build"
     },
@@ -28,5 +32,12 @@
         "babel-register": "^6.24.1",
         "gulp": "^3.9.1",
         "gulp-babel": "^6.1.2"
+    },
+    "dependencies": {
+        "jsonwebtoken": "^7.4.1",
+        "koa": "^2.2.0",
+        "koa-router": "^7.2.0",
+        "yargonaut": "^1.1.2",
+        "yargs": "^8.0.1"
     }
 }
