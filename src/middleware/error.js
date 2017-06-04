@@ -1,3 +1,5 @@
+import PublicError from '../error/public';
+
 export default () => async (ctx, next) => {
     const startTime = Date.now();
     try {
@@ -10,9 +12,9 @@ export default () => async (ctx, next) => {
         return new Promise(resolve => {
             setTimeout(() => {
                 ctx.body = {
-                    error: debug
+                    error: debug || err instanceof PublicError
                         ? err.message
-                        : err.publicMessage || 'Unexpected Error'
+                        : 'Unexpected Error'
                 };
                 ctx.status = err.status || 500;
                 resolve();

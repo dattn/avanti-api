@@ -1,3 +1,4 @@
+import PublicError from '../error/public';
 import Client from 'avanti-core/dist/client';
 
 export const list = async ctx => {
@@ -6,10 +7,7 @@ export const list = async ctx => {
 
 export const create = async ctx => {
     if (!ctx.request.body.name) {
-        let error = new Error('Name is missing');
-        error.publicMessage = 'Name is missing';
-        error.status = 400;
-        throw error;
+        throw (new PublicError('Name is missing')).withStatus(400);
     }
 
     let client = new Client(ctx.request.body.name);
