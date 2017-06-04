@@ -16,8 +16,12 @@ setup().then(() => {
         strict: true
     }));
 
-    router.get('/host/list', handle('host@list'));
     router.get('/client/list', handle('client@list'));
+    router.post('/client/create', handle('client@create'));
+
+    router.get('/host/list', handle('host@list'));
+    router.post('/host/create', handle('host@create'));
+    
     app
         .use(router.routes())
         .use(router.allowedMethods());
