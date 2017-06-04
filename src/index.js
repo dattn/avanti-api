@@ -17,6 +17,7 @@ setup().then(() => {
     }));
 
     router.get('/host/list', handle('host@list'));
+    router.get('/client/list', handle('client@list'));
     app
         .use(router.routes())
         .use(router.allowedMethods());
