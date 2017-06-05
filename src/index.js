@@ -18,10 +18,11 @@ setup().then(() => {
 
     router.get('/client/list', handle('client@list'));
     router.post('/client/create', handle('client@create'));
+    router.post('/client/remove', handle('client@remove'));
 
     router.get('/host/list', handle('host@list'));
     router.post('/host/create', handle('host@create'));
-    
+
     app
         .use(router.routes())
         .use(router.allowedMethods());
