@@ -22,6 +22,10 @@ setup().then(() => {
 
     router.get('/host/list', handle('host@list'));
     router.post('/host/create', handle('host@create'));
+    router.post('/host/remove', handle('host@remove'));
+    router.post('/host/alias/create', handle('host@createAlias'));
+    router.post('/host/alias/remove', handle('host@removeAlias'));
+    router.post('/host/php', handle('host@php'));
 
     app
         .use(router.routes())

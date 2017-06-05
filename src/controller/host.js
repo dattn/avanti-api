@@ -19,3 +19,83 @@ export const create = async ctx => {
     await host.create(ctx.request.body);
     ctx.body = await host.info();
 };
+
+export const createAlias = async ctx => {
+    if (!ctx.request.body.host) {
+        throw (new PublicError('Host is missing')).withStatus(400);
+    }
+
+    if (!ctx.request.body.alias) {
+        throw (new PublicError('Alias is missing')).withStatus(400);
+    }
+
+    var host;
+    if (ctx.request.body.client) {
+        host = (await Client.get(ctx.request.body.client)).host(ctx.request.body.host);
+    } else {
+        host = await Host.get(ctx.request.body.host);
+    }
+    await host.createAlias(ctx.request.body.alias);
+    ctx.body = {
+        status: 'ok'
+    };
+};
+
+export const removeAlias = async ctx => {
+    if (!ctx.request.body.host) {
+        throw (new PublicError('Host is missing')).withStatus(400);
+    }
+
+    if (!ctx.request.body.alias) {
+        throw (new PublicError('Alias is missing')).withStatus(400);
+    }
+
+    var host;
+    if (ctx.request.body.client) {
+        host = (await Client.get(ctx.request.bodyions.client)).host(ctx.request.body.host);
+    } else {
+        host = await Host.get(ctx.request.body.host);
+    }
+    await host.removeAlias(ctx.request.body.alias);
+    ctx.body = {
+        status: 'ok'
+    };
+};
+
+export const php = async ctx => {
+    if (!ctx.request.body.host) {
+        throw (new PublicError('Host is missing')).withStatus(400);
+    }
+
+    if (!ctx.request.body.php) {
+        throw (new PublicError('PHP is missing')).withStatus(400);
+    }
+
+    var host;
+    if (ctx.request.body.client) {
+        host = (await Client.get(ctx.request.body.client)).host(ctx.request.body.host);
+    } else {
+        host = await Host.get(ctx.request.body.host);
+    }
+    await host.php(ctx.request.body.php);
+    ctx.body = {
+        status: 'ok'
+    };
+};
+
+export const remove = async ctx => {
+    if (!ctx.request.body.host) {
+        throw (new PublicError('Host is missing')).withStatus(400);
+    }
+
+    var host;
+    if (ctx.request.body.client) {
+        host = (await Client.get(ctx.request.body.client)).host(ctx.request.body.host);
+    } else {
+        host = await Host.get(ctx.request.body.host);
+    }
+    await host.remove();
+    ctx.body = {
+        status: 'ok'
+    };
+};
