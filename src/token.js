@@ -1,8 +1,11 @@
 import jwt from 'jsonwebtoken';
+import uuid from 'uuid/v4';
+
+const TOKEN_SECRET = process.env.TOKEN_SECRET || uuid();
 
 export const create = ip => {
     return new Promise((resolve, reject) => {
-        jwt.sign({ ip }, 'SECRET', {}, (err, token) => {
+        jwt.sign({ ip }, TOKEN_SECRET, {}, (err, token) => {
             if (err) {
                 reject(err);
             } else {
@@ -14,7 +17,7 @@ export const create = ip => {
 
 export const verify = (token, ip) => {
     return new Promise((resolve, reject) => {
-        jwt.verify(token, 'SECRET', (err, decoded) => {
+        jwt.verify(token, TOKEN_SECRET, (err, decoded) => {
             if (err) {
                 reject(err);
             } else {
