@@ -1,8 +1,7 @@
 import yargonaut from 'yargonaut';
 import yargs from 'yargs';
 import packageInfo from '../../package.json';
-import jwt from 'jsonwebtoken';
-import uuid from 'uuid/v4';
+import * as Token from '../token';
 
 yargonaut
     .style('blue')
@@ -12,13 +11,11 @@ yargonaut
 var options = yargs
     .version(packageInfo.version)
 
-    .command('token [name]', 'generate token', {}, argv => {
-        jwt.sign({
-            name: argv.name,
-            uuid: uuid()
-        }, 'SECRET', {}, (err, token) => {
-            console.log(token);
-        });
+    .command('token [ip]', 'generate token', {}, argv => {
+        Token.create(argv.ip)
+            .then(token => {
+                console.log(token);
+            });
     })
 
     .recommendCommands()

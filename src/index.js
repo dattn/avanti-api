@@ -1,13 +1,35 @@
 import Koa from 'koa';
 import Router from 'koa-router';
 import { handle } from './controller';
+import JsonBody from 'koa-json-body';
+import ErrorMiddleware from './middleware/error';
+import TokenMiddleware from './middleware/token';
+import setup from 'avanti-core/dist/setup';
 
-const app = new Koa();
-const router = new Router();
+setup().then(() => {
+    const app = new Koa();
+    const router = new Router();
 
-router.get('/host/list', handle('host@list'));
-app
-    .use(router.routes())
-    .use(router.allowedMethods());
+    app.use(ErrorMiddleware());
+    app.use(TokenMiddleware());
+    app.use(JsonBody({
+        strict: true
+    }));
 
-app.listen(3000);
+    router.get('/client/list', handle('client@list'));
+    router.post('/client/create', handle('client@create'));
+    router.post('/client/remove', handle('client@remove'));
+
+    router.get('/host/list', handle('host@list'));
+    router.post('/host/create', handle('host@create'));
+    router.post('/host/remove', handle('host@remove'));
+    router.post('/host/alias/create', handle('host@createAlias'));
+    router.post('/host/alias/remove', handle('host@removeAlias'));
+    router.post('/host/php', handle('host@php'));
+
+    app
+        .use(router.routes())
+        .use(router.allowedMethods());
+
+    app.listen(3000);
+});
