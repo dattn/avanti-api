@@ -3,7 +3,10 @@ import Host from 'avanti-core/dist/host';
 import PublicError from '../error/public';
 
 export const list = async ctx => {
-    ctx.body = await Host.list();
+    ctx.body = (await Host.list()).map(host => {
+        host.alias = host.alias.split(',')
+        return host
+    })
 };
 
 export const create = async ctx => {
