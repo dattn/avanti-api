@@ -99,3 +99,20 @@ export const remove = async ctx => {
         status: 'ok'
     };
 };
+
+export const refresh = async ctx => {
+    if (!ctx.request.body.host) {
+        throw (new PublicError('Host is missing')).withStatus(400);
+    }
+
+    var host;
+    if (ctx.request.body.client) {
+        host = (await Client.get(ctx.request.bodyions.client)).host(ctx.request.body.host);
+    } else {
+        host = await Host.get(ctx.request.body.host);
+    }
+    await host.refresh();
+    ctx.body = {
+        status: 'ok'
+    };
+};

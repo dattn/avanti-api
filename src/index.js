@@ -28,6 +28,7 @@ setup().then(() => {
     router.post('/host/alias/create', handle('host@createAlias'));
     router.post('/host/alias/remove', handle('host@removeAlias'));
     router.post('/host/php', handle('host@php'));
+    router.post('/host/refresh', handle('host@refresh'));
 
     app
         .use(router.routes())
