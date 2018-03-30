@@ -131,3 +131,57 @@ export const info = async ctx => {
 
     ctx.body = await host.info();
 };
+
+export const setOption = async ctx => {
+    if (!ctx.request.body.host) {
+        throw (new PublicError('Host is missing')).withStatus(400);
+    }
+
+    if (!ctx.request.body.type) {
+        throw (new PublicError('Type is missing')).withStatus(400);
+    }
+
+    if (!ctx.request.body.key) {
+        throw (new PublicError('Key is missing')).withStatus(400);
+    }
+
+    if (!ctx.request.body.value) {
+        throw (new PublicError('Value is missing')).withStatus(400);
+    }
+
+    var host;
+    if (ctx.request.body.client) {
+        host = (await Client.get(ctx.request.body.client)).host(ctx.request.body.host);
+    } else {
+        host = await Host.get(ctx.request.body.host);
+    }
+    await host.setOption(ctx.request.body.type, ctx.request.body.key, ctx.request.body.value);
+    ctx.body = {
+        status: 'ok'
+    };
+};
+
+export const removeOption = async ctx => {
+    if (!ctx.request.body.host) {
+        throw (new PublicError('Host is missing')).withStatus(400);
+    }
+
+    if (!ctx.request.body.type) {
+        throw (new PublicError('Type is missing')).withStatus(400);
+    }
+
+    if (!ctx.request.body.key) {
+        throw (new PublicError('Key is missing')).withStatus(400);
+    }
+
+    var host;
+    if (ctx.request.body.client) {
+        host = (await Client.get(ctx.request.body.client)).host(ctx.request.body.host);
+    } else {
+        host = await Host.get(ctx.request.body.host);
+    }
+    await host.removeOption(ctx.request.body.type, ctx.request.body.key);
+    ctx.body = {
+        status: 'ok'
+    };
+};
