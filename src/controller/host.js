@@ -3,10 +3,7 @@ import Host from 'avanti-core/dist/host';
 import PublicError from '../error/public';
 
 export const list = async ctx => {
-    ctx.body = (await Host.list()).map(host => {
-        host.alias = host.alias.split(',')
-        return host
-    })
+    ctx.body = await Host.list()
 };
 
 export const create = async ctx => {
@@ -98,6 +95,92 @@ export const remove = async ctx => {
         host = await Host.get(ctx.request.body.host);
     }
     await host.remove();
+    ctx.body = {
+        status: 'ok'
+    };
+};
+
+export const refresh = async ctx => {
+    if (!ctx.request.body.host) {
+        throw (new PublicError('Host is missing')).withStatus(400);
+    }
+
+    var host;
+    if (ctx.request.body.client) {
+        host = (await Client.get(ctx.request.bodyions.client)).host(ctx.request.body.host);
+    } else {
+        host = await Host.get(ctx.request.body.host);
+    }
+    await host.refresh();
+    ctx.body = {
+        status: 'ok'
+    };
+};
+
+export const info = async ctx => {
+    if (!ctx.request.body.host) {
+        throw (new PublicError('Host is missing')).withStatus(400);
+    }
+
+    var host;
+    if (ctx.request.body.client) {
+        host = (await Client.get(ctx.request.bodyions.client)).host(ctx.request.body.host);
+    } else {
+        host = await Host.get(ctx.request.body.host);
+    }
+
+    ctx.body = await host.info();
+};
+
+export const setOption = async ctx => {
+    if (!ctx.request.body.host) {
+        throw (new PublicError('Host is missing')).withStatus(400);
+    }
+
+    if (!ctx.request.body.type) {
+        throw (new PublicError('Type is missing')).withStatus(400);
+    }
+
+    if (!ctx.request.body.key) {
+        throw (new PublicError('Key is missing')).withStatus(400);
+    }
+
+    if (!ctx.request.body.value) {
+        throw (new PublicError('Value is missing')).withStatus(400);
+    }
+
+    var host;
+    if (ctx.request.body.client) {
+        host = (await Client.get(ctx.request.body.client)).host(ctx.request.body.host);
+    } else {
+        host = await Host.get(ctx.request.body.host);
+    }
+    await host.setOption(ctx.request.body.type, ctx.request.body.key, ctx.request.body.value);
+    ctx.body = {
+        status: 'ok'
+    };
+};
+
+export const removeOption = async ctx => {
+    if (!ctx.request.body.host) {
+        throw (new PublicError('Host is missing')).withStatus(400);
+    }
+
+    if (!ctx.request.body.type) {
+        throw (new PublicError('Type is missing')).withStatus(400);
+    }
+
+    if (!ctx.request.body.key) {
+        throw (new PublicError('Key is missing')).withStatus(400);
+    }
+
+    var host;
+    if (ctx.request.body.client) {
+        host = (await Client.get(ctx.request.body.client)).host(ctx.request.body.host);
+    } else {
+        host = await Host.get(ctx.request.body.host);
+    }
+    await host.removeOption(ctx.request.body.type, ctx.request.body.key);
     ctx.body = {
         status: 'ok'
     };
