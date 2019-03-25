@@ -28,7 +28,7 @@ export const verify = (token, ip) => {
                 if (ip === decoded.ip) {
                     resolve(decoded);
                 } else {
-                    reject(new Error('Invalid IP'));
+                    reject(new Error('Invalid IP "' + ip + '"'));
                 }
             }
         });
