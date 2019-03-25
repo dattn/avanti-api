@@ -55,7 +55,7 @@ export const removeAlias = async ctx => {
 
     var host;
     if (ctx.request.body.client) {
-        host = (await Client.get(ctx.request.bodyions.client)).host(ctx.request.body.host);
+        host = (await Client.get(ctx.request.body.client)).host(ctx.request.body.host);
     } else {
         host = await Host.get(ctx.request.body.host);
     }
