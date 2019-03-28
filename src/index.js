@@ -30,8 +30,8 @@ setup().then(() => {
     router.post('/host/alias/remove', handle('host@removeAlias'));
     router.post('/host/php', handle('host@php'));
     router.post('/host/refresh', handle('host@refresh'));
-    router.post('/host/option', handle('host@setOption'));
-    router.delete('/host/option', handle('host@removeOption'));
+    router.post('/host/option/set', handle('host@setOption'));
+    router.post('/host/option/remove', handle('host@removeOption'));
 
     app
         .use(router.routes())
