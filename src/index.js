@@ -32,6 +32,8 @@ setup().then(() => {
     router.post('/host/refresh', handle('host@refresh'));
     router.post('/host/option/set', handle('host@setOption'));
     router.post('/host/option/remove', handle('host@removeOption'));
+    router.post('/host/ftp/create', handle('host@createFtp'));
+    router.post('/host/ftp/remove', handle('host@removeFtp'));
 
     app
         .use(router.routes())
