@@ -52,7 +52,7 @@ export const removeAlias = async ctx => {
 
     var host;
     if (ctx.request.body.client) {
-        host = (await Client.get(ctx.request.bodyions.client)).host(ctx.request.body.host);
+        host = (await Client.get(ctx.request.body.client)).host(ctx.request.body.host);
     } else {
         host = await Host.get(ctx.request.body.host);
     }
@@ -107,7 +107,7 @@ export const refresh = async ctx => {
 
     var host;
     if (ctx.request.body.client) {
-        host = (await Client.get(ctx.request.bodyions.client)).host(ctx.request.body.host);
+        host = (await Client.get(ctx.request.body.client)).host(ctx.request.body.host);
     } else {
         host = await Host.get(ctx.request.body.host);
     }
@@ -124,7 +124,7 @@ export const info = async ctx => {
 
     var host;
     if (ctx.request.body.client) {
-        host = (await Client.get(ctx.request.bodyions.client)).host(ctx.request.body.host);
+        host = (await Client.get(ctx.request.body.client)).host(ctx.request.body.host);
     } else {
         host = await Host.get(ctx.request.body.host);
     }
@@ -181,6 +181,44 @@ export const removeOption = async ctx => {
         host = await Host.get(ctx.request.body.host);
     }
     await host.removeOption(ctx.request.body.type, ctx.request.body.key);
+    ctx.body = {
+        status: 'ok'
+    };
+};
+
+export const createFtp = async ctx => {
+    if (!ctx.request.body.host) {
+        throw (new PublicError('Host is missing')).withStatus(400);
+    }
+
+    if (!ctx.request.body.password) {
+        throw (new PublicError('Password is missing')).withStatus(400);
+    }
+
+    var host;
+    if (ctx.request.body.client) {
+        host = (await Client.get(ctx.request.body.client)).host(ctx.request.body.host);
+    } else {
+        host = await Host.get(ctx.request.body.host);
+    }
+    await host.createFtp(ctx.request.body.password);
+    ctx.body = {
+        status: 'ok'
+    };
+};
+
+export const removeFtp = async ctx => {
+    if (!ctx.request.body.host) {
+        throw (new PublicError('Host is missing')).withStatus(400);
+    }
+
+    var host;
+    if (ctx.request.body.client) {
+        host = (await Client.get(ctx.request.body.client)).host(ctx.request.body.host);
+    } else {
+        host = await Host.get(ctx.request.body.host);
+    }
+    await host.removeFtp();
     ctx.body = {
         status: 'ok'
     };
