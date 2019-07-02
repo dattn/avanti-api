@@ -35,6 +35,8 @@ setup().then(() => {
     router.post('/host/ftp/create', handle('host@createFtp'));
     router.post('/host/ftp/remove', handle('host@removeFtp'));
 
+    router.get('/ftp/status', handle('ftp@status'));
+
     app
         .use(router.routes())
         .use(router.allowedMethods());
